@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>自由微博 | FreeWeibo</title>
+<meta name="robots" content="noindex" />
+<meta name="apple-itunes-app" content="app-id=708973575">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="shortcut icon" href="favicon.ico?v=2" />
+<style>
+html,body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+iframe {
+	border: none;
+	overflow-x: hidden;
+	height: 90%;
+}
+</style>
+</head>
+<body>
+	<!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  	<![endif]-->
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="jquery-1.9.1.min.js"><\/script>')
+	</script>
+	<script type="text/javascript">
+		if (window.location.protocol != 'https:') {
+			if (window.location.host != 'localhost') {
+				var new_href = 'https://' + window.location.host
+						+ window.location.pathname;
+				window.location = new_href;
+			}
+		}
+		(function($) {
+			$(document).ready(function() {
+				var new_src = $('#main-frame').attr('src');
+				var u = getU();
+				if (u) {
+					var q = u.match(/weibo\/(.+)/);
+					if(q) {
+						$('form input[name=q]').val(decodeURIComponent(q[1]));
+					}
+					new_src += '/' + u;
+					$('#main-frame').attr('src', new_src);
+				}
+				
+				$('form').submit(function() {
+					window.location = '?u=weibo/' + encodeURIComponent($('form input[name=q]').val());
+					return false;
+				});
+				
+				var frame_height = window.innerHeight - $('#top').height() - parseInt($('#top').css('marginTop')) - parseInt($('#top').css('marginBottom'));
+				$('#main-frame').height(frame_height);
+				
+				$("#main-frame").load(function () {
+					// Frame done loading.
+				});
+			});
+			function getU() {
+				var prmstr = window.location.search.substr(1);
+				var prmarr = prmstr.split("&");
+				for ( var i = 0; i < prmarr.length; i++) {
+					var tmparr = prmarr[i].split("=");
+					if (tmparr[0] == 'u') {
+						return decodeURIComponent(tmparr[1]);
+					}
+				}
+				return false;
+			}
+		})(jQuery);
+	</script>
+	<div id="wrapper">
+		<div id="top">
+			<div id="top-left">
+				<div id="logo">
+					<a href="index.html"> <img alt="自由微博" src="img/freeweibo.png"
+						width="160" />
+					</a>
+				</div>
+			</div>
+			<div id="top-right">
+				<form action="https://d2l5fbjg2vvdi.cloudfront.net" method="post"
+					target="main_frame">
+					<div class="form-wrapper-outer">
+						<div class="form-wrapper-inner">
+							<div class="submit-wrapper">
+								<input type="submit" value="搜索" class="submit submit-cn" />
+							</div>
+							<div class="q-wrapper-outer">
+								<div class="q-wrapper-inner">
+									<input type="text" name="q" class="q" maxlength="40" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<iframe id="main-frame" name="main_frame"
+		src="https://d2l5fbjg2vvdi.cloudfront.net" width="100%" height="100%"></iframe>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push([ '_setAccount', 'UA-26222920-4' ]);
+		_gaq.push([ '_trackPageview' ]);
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+					: 'http://www')
+					+ '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</body>
+</html>
